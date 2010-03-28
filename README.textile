@@ -1,3 +1,25 @@
-h1. SolidState
+h1. luaSolidState
 
-Data saving...basically.
+luaSolidState (referred to as "state" from now on) is a Lua library which allows easy and painless storing of tables in Lua.
+
+h2. How to install
+Put the folder _state_ somewhere in your Lua module path. On Linux/Mac this is usually something like _/usr/local/share/lua/5.1/_ and on Windows it's _C:\Program Files\Lua\5.1\_.
+
+h2. How to use
+Take a look at this example:
+
+bc. require("state")
+-- initialize our data table
+data = {aVariable = ""}
+-- if there is a previous state, load it
+local st = state.load("exampleStateProgram")
+if st then data = st end
+-- print the variable
+print("Stored variable: "..data.aVariable)
+-- store a new value
+io.write("Input a value to be stored: ")
+data.aVariable = io.read("*line")
+-- save the table
+state.store("exampleStateProgram", data)
+
+Easy, isn't it?
