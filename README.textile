@@ -4,7 +4,9 @@ luaSolidState (referred to as "state" from now on) is a Lua library which allows
 
 h2. How to install
 
-Put the folder _state_ somewhere in your Lua module path. On Linux/Mac this is usually something like _/usr/local/share/lua/5.1/_ and on Windows it's _C:\Program Files\Lua\5.1\_.
+Put the folder _state_ somewhere in your Lua module path.
+On Linux/Mac this is usually something like _/usr/local/share/lua/5.1/_.
+On Windows it's _C:\Program Files\Lua\5.1\_.
 
 h2. How to use
 
