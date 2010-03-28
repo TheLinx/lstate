@@ -49,7 +49,6 @@ function serialize(i, v)
 		return sf("[%q]=nil", i)
 	end
 end
-
 function serializeTable(t)
 	local s = newStack()
 	addString(s, "{")
@@ -62,6 +61,9 @@ function serializeTable(t)
 	return table.concat(s)
 end
 
+--- Store a table.
+-- @param n Identifier - used for loading the state later.
+-- @param t The table to store.
 function store(n, t)
 	local fhand = io.open(stateDir..n, "w")
 	local fcont = "return "..serializeTable(t)
@@ -69,6 +71,10 @@ function store(n, t)
 	fhand:close()
 end
 
+--- Load a table.
+-- If the load is unsuccessful, the first return value will be nil and
+-- the second value will be an error message.
+-- @param n Identifier - the one you used when saving the table.
 function load(n)
 	local f,e = lf(stateDir..n)
 	if f then
