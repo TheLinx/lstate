@@ -70,5 +70,10 @@ function store(n, t)
 end
 
 function load(n)
-	return at(lf(stateDir..n))()
+	local f,e = lf(stateDir..n)
+	if f then
+		return f()
+	else
+		return nil,e
+	end
 end
