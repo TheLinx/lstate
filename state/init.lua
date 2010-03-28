@@ -9,7 +9,7 @@ if not stateDir then
 	if env"HOME" then
 		stateDir = env("HOME").."/.luastates/"
 	elseif env"appdata" then
-		stateDir = env("appdata").."\LuaStates\"
+		stateDir = env("appdata").."\\LuaStates\\"
 	else
 		error("Cannot determine OS, please submit a bug report to http://github.com/TheLinx/luaSolidState/issues")
 	end
