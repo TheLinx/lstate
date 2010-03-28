@@ -1,5 +1,5 @@
 local lfs = require"lfs" -- luarocks install luafilesystem
-local table,string = table,string
+local table,string,io = table,string,io
 local sf,env,ts,at,lf = string.format,os.getenv,tostring,assert,loadfile
 
 --- Solid state for Lua.
