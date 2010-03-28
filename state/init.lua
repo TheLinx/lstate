@@ -4,7 +4,16 @@ local sf,env,ts,at,lf = string.format,os.getenv,tostring,assert,loadfile
 
 --- Solid state for Lua.
 module("state")
-local stateDir = stateDir or env("HOME").."/.luastates/"
+local stateDir = ""
+if not stateDir then
+	if env"HOME" then
+		stateDir = env("HOME").."/.luastates/"
+	elseif env"appdata" then
+		stateDir = env("appdata").."\LuaStates\"
+	else
+		error("Cannot determine OS, please submit a bug report to http://github.com/TheLinx/luaSolidState/issues")
+	end
+end
 if not lfs.attributes(stateDir) then
 	lfs.mkdir(stateDir)
 end
