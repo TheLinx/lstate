@@ -1,6 +1,6 @@
 local lfs = require"lfs" -- luarocks install luafilesystem
 local table,string,io = table,string,io
-local sf,env,ts,at,lf = string.format,os.getenv,tostring,assert,loadfile
+local sf,env,ts,at,lf,ps,te = string.format,os.getenv,tostring,assert,loadfile,pairs,type
 
 --- Solid state for Lua.
 module("state")
@@ -35,7 +35,7 @@ local function popString(stack)
 end
 
 function serialize(i, v)
-	local t = type(v)
+	local t = te(v)
 	if t == "string" then
 		v:gsub("\\\n", "\\n"):gsub("\r", "\\r"):gsub(string.char(26), "\"..string.char(26)..\"")
 		return sf("[%q]=%q", i, v)
@@ -53,7 +53,7 @@ end
 function serializeTable(t)
 	local s = newStack()
 	addString(s, "{")
-	for k,v in pairs(t) do
+	for k,v in ps(t) do
 		addString(s, serialize(k,v))
 		addString(s, ",")
 	end
