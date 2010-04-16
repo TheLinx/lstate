@@ -1,6 +1,7 @@
 h1. luaSolidState
 
 luaSolidState (referred to as "state" from now on) is a Lua library which allows easy and painless storing of tables in Lua.
+You need LuaFilesystem for this module to work.
 
 h2. How to install
 
