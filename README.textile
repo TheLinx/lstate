@@ -3,7 +3,11 @@ h1. luaSolidState
 luaSolidState (referred to as "state" from now on) is a Lua library which allows easy and painless storing of tables in Lua.
 You need LuaFilesystem for this module to work.
 
-h2. How to install
+h2. How to install (with LuaRocks)
+
+Run the command _luarocks install http://github.com/TheLinx/luaSolidState/raw/rocks/luasolidstate-1.0.0-1.rockspec_
+
+h2. How to install (Manually)
 
 Put the folder _state_ somewhere in your Lua module path.
 On Linux/Mac this is usually something like _/usr/local/share/lua/5.1/_.
