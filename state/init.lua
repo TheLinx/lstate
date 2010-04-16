@@ -1,17 +1,18 @@
 local lfs = require"lfs" -- luarocks install luafilesystem
-local table,string,io = table,string,io
-local sf,env,ts,at,lf,ps,te = string.format,os.getenv,tostring,assert,loadfile,pairs,type
+local io = io
+local sf,env,ts,at,lf,ps,te,err = string.format,os.getenv,tostring,assert,loadfile,pairs,type,error
+local ti,tn,sl,tr,sc,tc = table.insert,table.getn,string.len,table.remove,string.char,table.concat
 
 --- Solid state for Lua.
 module("state")
 local stateDir = stateDir or ""
-if not stateDir then
+if stateDir == "" then
     if env"HOME" then
         stateDir = env("HOME").."/.luastates/"
     elseif env"appdata" then
         stateDir = env("appdata").."\\LuaStates\\"
     else
-        error("Cannot determine OS, please submit a bug report to http://github.com/TheLinx/luaSolidState/issues")
+        err("Cannot determine OS, please submit a bug report to http://github.com/TheLinx/luaSolidState/issues")
     end
 end
 if not lfs.attributes(stateDir) then
@@ -22,12 +23,12 @@ local function newStack()
     return {""} -- starts with an empty string
 end
 local function addString(stack, s)
-    table.insert(stack, s) -- push 's' into the the stack
-    for i=table.getn(stack)-1, 1, -1 do
-        if string.len(stack[i]) > string.len(stack[i+1]) then
+    ti(stack, s) -- push 's' into the the stack
+    for i=tn(stack)-1, 1, -1 do
+        if sl(stack[i]) > sl(stack[i+1]) then
             break
         end
-    stack[i] = stack[i]..table.remove(stack)
+    stack[i] = stack[i]..tr(stack)
     end
 end
 local function popString(stack)
@@ -37,7 +38,7 @@ end
 function serializeValue(v)
     local t = te(v)
     if t == "string" then
-        v:gsub("\\\n", "\\n"):gsub("\r", "\\r"):gsub(string.char(26), "\"..string.char(26)..\"")
+        v:gsub("\\\n", "\\n"):gsub("\r", "\\r"):gsub(sc(26), "\"..string.char(26)..\"")
         return sf("%q", v)
     elseif t == "number" then
         return sf("%d", v)
@@ -49,17 +50,17 @@ function serializeValue(v)
         return sf("nil", i)
     end
 end
-function serializeTable(t, force)
-    local s = newStack()
+function serializeTable(t)
+    local s,sv = newStack(),serializeValue
     addString(s, "{")
     for k,v in ps(t) do
-        addString(s, "["..serializeValue(k, force).."]=")
-        addString(s, serializeValue(v, force))
+        addString(s, "["..sv(k).."]=")
+        addString(s, sv(v))
         addString(s, ",")
     end
     popString(s)
     addString(s, "}")
-    return table.concat(s)
+    return tc(s)
 end
 
 --- Store a table.
