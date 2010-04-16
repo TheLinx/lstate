@@ -4,71 +4,72 @@ local sf,env,ts,at,lf,ps,te = string.format,os.getenv,tostring,assert,loadfile,p
 
 --- Solid state for Lua.
 module("state")
-local stateDir = ""
+local stateDir = stateDir or ""
 if not stateDir then
-	if env"HOME" then
-		stateDir = env("HOME").."/.luastates/"
-	elseif env"appdata" then
-		stateDir = env("appdata").."\\LuaStates\\"
-	else
-		error("Cannot determine OS, please submit a bug report to http://github.com/TheLinx/luaSolidState/issues")
-	end
+    if env"HOME" then
+        stateDir = env("HOME").."/.luastates/"
+    elseif env"appdata" then
+        stateDir = env("appdata").."\\LuaStates\\"
+    else
+        error("Cannot determine OS, please submit a bug report to http://github.com/TheLinx/luaSolidState/issues")
+    end
 end
 if not lfs.attributes(stateDir) then
-	lfs.mkdir(stateDir)
+    lfs.mkdir(stateDir)
 end
 
 local function newStack()
-	return {""} -- starts with an empty string
+    return {""} -- starts with an empty string
 end
 local function addString(stack, s)
-	table.insert(stack, s) -- push 's' into the the stack
-	for i=table.getn(stack)-1, 1, -1 do
-		if string.len(stack[i]) > string.len(stack[i+1]) then
-			break
-		end
-	stack[i] = stack[i]..table.remove(stack)
-	end
+    table.insert(stack, s) -- push 's' into the the stack
+    for i=table.getn(stack)-1, 1, -1 do
+        if string.len(stack[i]) > string.len(stack[i+1]) then
+            break
+        end
+    stack[i] = stack[i]..table.remove(stack)
+    end
 end
 local function popString(stack)
-	stack[#stack] = nil
+    stack[#stack] = nil
 end
 
-function serialize(i, v)
-	local t = te(v)
-	if t == "string" then
-		v:gsub("\\\n", "\\n"):gsub("\r", "\\r"):gsub(string.char(26), "\"..string.char(26)..\"")
-		return sf("[%q]=%q", i, v)
-	elseif t == "number" then
-		return sf("[%q]=%d", i, v)
-	elseif t == "boolean" then
-		return sf("[%q]=%s", i, ts(v))
-	elseif t == "table" then
-		return sf("[%q]=%s", i, serializeTable(v))
-	elseif t == "nil" then
-		return sf("[%q]=nil", i)
-	end
+function serializeValue(v)
+    local t = te(v)
+    if t == "string" then
+        v:gsub("\\\n", "\\n"):gsub("\r", "\\r"):gsub(string.char(26), "\"..string.char(26)..\"")
+        return sf("%q", v)
+    elseif t == "number" then
+        return sf("%d", v)
+    elseif t == "boolean" then
+        return sf("%s", ts(v))
+    elseif t == "table" then
+        return sf("%s", i, serializeTable(v))
+    elseif t == "nil" then
+        return sf("nil", i)
+    end
 end
-function serializeTable(t)
-	local s = newStack()
-	addString(s, "{")
-	for k,v in ps(t) do
-		addString(s, serialize(k,v))
-		addString(s, ",")
-	end
-	popString(s)
-	addString(s, "}")
-	return table.concat(s)
+function serializeTable(t, force)
+    local s = newStack()
+    addString(s, "{")
+    for k,v in ps(t) do
+        addString(s, "["..serializeValue(k, force).."]=")
+        addString(s, serializeValue(v, force))
+        addString(s, ",")
+    end
+    popString(s)
+    addString(s, "}")
+    return table.concat(s)
 end
 
 --- Store a table.
 -- @param n Identifier - used for loading the state later.
 -- @param t The table to store.
 function store(n, t)
-	local fhand = io.open(stateDir..n, "w")
-	local fcont = "return "..serializeTable(t)
-	fhand:write(fcont)
-	fhand:close()
+    local fhand = io.open(stateDir..n, "w")
+    local fcont = "return "..serializeTable(t)
+    fhand:write(fcont)
+    fhand:close()
 end
 
 --- Load a table.
@@ -76,10 +77,10 @@ end
 -- the second value will be an error message.
 -- @param n Identifier - the one you used when saving the table.
 function load(n)
-	local f,e = lf(stateDir..n)
-	if f then
-		return f()
-	else
-		return nil,e
-	end
+    local f,e = lf(stateDir..n)
+    if f then
+        return f()
+    else
+        return nil,e
+    end
 end
