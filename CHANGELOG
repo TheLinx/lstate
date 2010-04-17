@@ -6,3 +6,5 @@ STATE 1.1.0
   * Fixed a bug where serializing an empty table would fail.
   * Is now able to store simple functions. Upvalues will fail.
   * Will now error if encountering userdata or a thread.
+
+http://github.com/TheLinx/luaSolidState/compare/f54afd6b42514639322d18a39aeb1ee2cbb1032...6cf578b9d5f387dfd575194bec361b75ad98e306
