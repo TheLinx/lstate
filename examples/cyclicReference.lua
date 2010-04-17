@@ -6,7 +6,7 @@ table.insert(data, data) -- cyclic reference :o
 state.store("cyclicReferenceTable", data)
 -- delete it
 data = nil
--- load it again
+-- load it
 data = state.load("cyclicReferenceTable")
 -- show it
 print(state.serializeTable(data))
