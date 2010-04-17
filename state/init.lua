@@ -27,7 +27,7 @@ if not lfs.attributes(stateDir) then
     lfs.mkdir(stateDir)
 end
 
-local function serializeValue(v, d)
+local function serializevalue(v, d)
     local d = d or {}
     local t = type(v)
     if t == "string" then
@@ -42,23 +42,21 @@ local function serializeValue(v, d)
             return "{...}"
         end
         d[v] = true
-        return stringFormat("%s", serializeTable(v, d))
+        return stringFormat("%s", serializetable(v, d))
     elseif t == "function" then
         return "loadstring([[\n"..stringDump(v).."\n]])"
     elseif t == "nil" then
         return stringFormat("nil", i)
-    elseif t == "userdata" then
-        error("can't serialize userdata", 4)
-    elseif t == "thread" then
-        error("can't serialize threads", 4)
+    else
+        error("can't serialize variable of type '"..t.."'", 4)
     end
 end
-function serializeTable(table, d)
+function serializetable(table, d)
     local s = {}
     tableInsert(s, "{")
     for k,v in pairs(table) do
-        tableInsert(s, "["..serializeValue(k, d).."]=")
-        tableInsert(s, serializeValue(v, d))
+        tableInsert(s, "["..serializevalue(k, d).."]=")
+        tableInsert(s, serializevalue(v, d))
         tableInsert(s, ",")
     end
     if s[#s] == "," then
@@ -73,7 +71,7 @@ end
 -- @param table The table to store.
 function store(id, table)
     local fhand = ioOpen(stateDir..id, "w")
-    local fcont = "return "..serializeTable(table)
+    local fcont = "return "..serializetable(table)
     fhand:write(fcont)
     fhand:close()
 end
