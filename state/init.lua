@@ -42,6 +42,10 @@ local function serializeValue(v)
         return "loadstring([[\n"..stringDump(v).."\n]])"
     elseif t == "nil" then
         return stringFormat("nil", i)
+    elseif t == "userdata" then
+        error("can't serialize userdata", 4)
+    elseif t == "thread" then
+        error("can't serialize threads", 4)
     end
 end
 function serializeTable(table)
