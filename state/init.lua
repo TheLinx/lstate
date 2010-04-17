@@ -47,15 +47,7 @@ function serializeValue(v)
     elseif t == "table" then
         return sf("%s", i, serializeTable(v))
     elseif t == "function" then
-        local b = sd(v)
-        local o = newStack()
-        for i=1,#b do
-            local c = b:sub(i,i)
-            addString(o, "string.char("..sb(c)..")")
-            addString(o, "..")
-        end
-        popString(o)
-        return "loadstring([[\n"..b.."\n]])"
+        return "loadstring([[\n"..sd(v).."\n]])"
     elseif t == "nil" then
         return sf("nil", i)
     end
