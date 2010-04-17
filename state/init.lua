@@ -1,7 +1,6 @@
 local lfs = require"lfs" -- luarocks install luafilesystem
-local io = io
-local sf,env,ts,at,lf,ps,te,err = string.format,os.getenv,tostring,assert,loadfile,pairs,type,error
-local ti,tn,sl,tr,sc,tc,sd,sb = table.insert,table.getn,string.len,table.remove,string.char,table.concat,string.dump,string.byte
+local stringFormat,osGetenv,tostring,assert,loadfile,pairs,type,error = string.format,os.getenv,tostring,assert,loadfile,pairs,type,error
+local tableInsert,tableConcat,stringDump,ioOpen,stringChar = table.insert,table.concat,string.dump,io.open,string.char
 
 --- Solid state for Lua.
 -- @license Public Domain
@@ -9,70 +8,56 @@ local ti,tn,sl,tr,sc,tc,sd,sb = table.insert,table.getn,string.len,table.remove,
 module("state")
 local stateDir = stateDir or ""
 if stateDir == "" then
-    if env"HOME" then
-        stateDir = env("HOME").."/.luastates/"
-    elseif env"appdata" then
-        stateDir = env("appdata").."\\LuaStates\\"
+    if osGetenv("HOME") then
+        stateDir = osGetenv("HOME").."/.luastates/"
+    elseif osGetenv("appdata") then
+        stateDir = osGetenv("appdata").."\\LuaStates\\"
     else
-        err("Cannot determine OS, please submit a bug report to http://github.com/TheLinx/luaSolidState/issues")
+        error("Cannot determine OS, please submit a bug report to http://github.com/TheLinx/luaSolidState/issues")
     end
 end
 if not lfs.attributes(stateDir) then
     lfs.mkdir(stateDir)
 end
 
-local function newStack()
-    return {""} -- starts with an empty string
-end
-local function addString(stack, s)
-    ti(stack, s) -- push 's' into the the stack
-    for i=tn(stack)-1, 1, -1 do
-        if sl(stack[i]) > sl(stack[i+1]) then
-            break
-        end
-    stack[i] = stack[i]..tr(stack)
-    end
-end
-local function popString(stack)
-    stack[#stack] = nil
-end
-
-function serializeValue(v)
-    local t = te(v)
+local function serializeValue(v)
+    local t = type(v)
     if t == "string" then
-        v:gsub("\\\n", "\\n"):gsub("\r", "\\r"):gsub(sc(26), "\"..string.char(26)..\"")
-        return sf("%q", v)
+        v:gsub("\\\n", "\\n"):gsub("\r", "\\r"):gsub(stringChar(26), "\"..string.char(26)..\"")
+        return stringFormat("%q", v)
     elseif t == "number" then
-        return sf("%d", v)
+        return stringFormat("%d", v)
     elseif t == "boolean" then
-        return sf("%s", ts(v))
+        return stringFormat("%s", tostring(v))
     elseif t == "table" then
-        return sf("%s", i, serializeTable(v))
+        return stringFormat("%s", i, serializeTable(v))
     elseif t == "function" then
-        return "loadstring([[\n"..sd(v).."\n]])"
+        return "loadstring([[\n"..stringDump(v).."\n]])"
     elseif t == "nil" then
-        return sf("nil", i)
+        return stringFormat("nil", i)
     end
 end
-function serializeTable(t)
-    local s,sv = newStack(),serializeValue
-    addString(s, "{")
-    for k,v in ps(t) do
-        addString(s, "["..sv(k).."]=")
-        addString(s, sv(v))
-        addString(s, ",")
+function serializeTable(table)
+    local s = {}
+    tableInsert(s, "{")
+    for k,v in pairs(table) do
+        tableInsert(s, "["..serializeValue(k).."]=")
+        tableInsert(s, serializeValue(v))
+        tableInsert(s, ",")
     end
-    popString(s)
-    addString(s, "}")
-    return tc(s)
+    if s[#s] == "," then
+        s[#s] = nil
+    end
+    tableInsert(s, "}")
+    return tableConcat(s)
 end
 
 --- Store a table.
--- @param n Identifier - used for loading the state later.
--- @param t The table to store.
-function store(n, t)
-    local fhand = io.open(stateDir..n, "w")
-    local fcont = "return "..serializeTable(t)
+-- @param id Identifier - used for loading the state later.
+-- @param table The table to store.
+function store(id, table)
+    local fhand = ioOpen(stateDir..id, "w")
+    local fcont = "return "..serializeTable(table)
     fhand:write(fcont)
     fhand:close()
 end
@@ -80,9 +65,9 @@ end
 --- Load a table.
 -- If the load is unsuccessful, the first return value will be nil and
 -- the second value will be an error message.
--- @param n Identifier - the one you used when saving the table.
-function load(n)
-    local f,e = lf(stateDir..n)
+-- @param id Identifier - the one you used when saving the table.
+function load(id)
+    local f,e = loadfile(stateDir..id)
     if f then
         return f()
     else
