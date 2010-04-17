@@ -1,10 +1,16 @@
+STATE 1.2.0
+-----------
+http://github.com/TheLinx/luaSolidState/compare/6cf578b9d5f387dfd575194bec361b75ad98e306...3c55f30823a9caffff4cce5148876eb52e9087f6
+
+  * Now supports cyclic referencing in tables.
+  * Renamed serializing functions to lowercase-only to avoid library confusion.
+
 STATE 1.1.0
 -----------
+http://github.com/TheLinx/luaSolidState/compare/f54afd6b42514639322d18a39aeb1ee2cbb1032...6cf578b9d5f387dfd575194bec361b75ad98e306
 
   * Changed names of local functions to be more human-friendly.
   * Replaced string stack functions with just the table-inserting.
   * Fixed a bug where serializing an empty table would fail.
   * Is now able to store simple functions. Upvalues will fail.
   * Will now error if encountering userdata or a thread.
-
-http://github.com/TheLinx/luaSolidState/compare/f54afd6b42514639322d18a39aeb1ee2cbb1032...6cf578b9d5f387dfd575194bec361b75ad98e306

@@ -5,7 +5,7 @@ You need LuaFilesystem for this module to work.
 
 h2. How to install (with LuaRocks)
 
-Run the command _luarocks install http://github.com/TheLinx/luaSolidState/raw/rocks/luasolidstate-1.1.0-1.rockspec_
+Run the command _luarocks install http://github.com/TheLinx/luaSolidState/raw/rocks/luasolidstate-1.2.0-1.rockspec_
 
 h2. How to install (Manually)
 

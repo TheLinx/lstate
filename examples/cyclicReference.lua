@@ -10,5 +10,6 @@ data = nil
 data = state.load("cyclicReferenceTable")
 -- show it
 print(state.serializetable(data))
+print(data.foo, data[1].foo)
 -- fax, rename it
 -- oh wait
