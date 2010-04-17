@@ -1,7 +1,7 @@
 local lfs = require"lfs" -- luarocks install luafilesystem
 local io = io
 local sf,env,ts,at,lf,ps,te,err = string.format,os.getenv,tostring,assert,loadfile,pairs,type,error
-local ti,tn,sl,tr,sc,tc = table.insert,table.getn,string.len,table.remove,string.char,table.concat
+local ti,tn,sl,tr,sc,tc,sd,sb = table.insert,table.getn,string.len,table.remove,string.char,table.concat,string.dump,string.byte
 
 --- Solid state for Lua.
 module("state")
@@ -46,6 +46,16 @@ function serializeValue(v)
         return sf("%s", ts(v))
     elseif t == "table" then
         return sf("%s", i, serializeTable(v))
+    elseif t == "function" then
+        local b = sd(v)
+        local o = newStack()
+        for i=1,#b do
+            local c = b:sub(i,i)
+            addString(o, "string.char("..sb(c)..")")
+            addString(o, "..")
+        end
+        popString(o)
+        return "loadstring([[\n"..b.."\n]])"
     elseif t == "nil" then
         return sf("nil", i)
     end
