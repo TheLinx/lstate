@@ -1,0 +1,6 @@
+STATE 1.1.0
+-----------
+
+  * Changed names of local functions to be more human-friendly.
+  * Replaced string stack functions with just the table-inserting.
+  * Fixed a bug where serializing an empty table would fail.
