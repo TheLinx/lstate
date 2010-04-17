@@ -4,6 +4,8 @@ local sf,env,ts,at,lf,ps,te,err = string.format,os.getenv,tostring,assert,loadfi
 local ti,tn,sl,tr,sc,tc,sd,sb = table.insert,table.getn,string.len,table.remove,string.char,table.concat,string.dump,string.byte
 
 --- Solid state for Lua.
+-- @license Public Domain
+-- @author Linus Sjögren <thelinx@unreliablepollution.net>
 module("state")
 local stateDir = stateDir or ""
 if stateDir == "" then
