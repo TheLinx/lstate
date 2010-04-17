@@ -11,7 +11,7 @@ local tableInsert,tableConcat = table.insert,table.concat
 --- Solid state for Lua.
 -- @license Public Domain
 -- @author Linus Sjögren <thelinx@unreliablepollution.net>
--- @version 1.1.0-PREVIEW
+-- @version 1.2.0-PREVIEW
 module("state")
 local stateDir = stateDir or ""
 if stateDir == "" then
@@ -27,7 +27,8 @@ if not lfs.attributes(stateDir) then
     lfs.mkdir(stateDir)
 end
 
-local function serializeValue(v)
+local function serializeValue(v, d)
+    local d = d or {}
     local t = type(v)
     if t == "string" then
         v:gsub("\\\n", "\\n"):gsub("\r", "\\r"):gsub(stringChar(26), "\"..string.char(26)..\"")
@@ -37,7 +38,11 @@ local function serializeValue(v)
     elseif t == "boolean" then
         return stringFormat("%s", tostring(v))
     elseif t == "table" then
-        return stringFormat("%s", i, serializeTable(v))
+        if d[v] then
+            return "{...}"
+        end
+        d[v] = true
+        return stringFormat("%s", serializeTable(v, d))
     elseif t == "function" then
         return "loadstring([[\n"..stringDump(v).."\n]])"
     elseif t == "nil" then
@@ -48,12 +53,12 @@ local function serializeValue(v)
         error("can't serialize threads", 4)
     end
 end
-function serializeTable(table)
+function serializeTable(table, d)
     local s = {}
     tableInsert(s, "{")
     for k,v in pairs(table) do
-        tableInsert(s, "["..serializeValue(k).."]=")
-        tableInsert(s, serializeValue(v))
+        tableInsert(s, "["..serializeValue(k, d).."]=")
+        tableInsert(s, serializeValue(v, d))
         tableInsert(s, ",")
     end
     if s[#s] == "," then
