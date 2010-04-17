@@ -1,10 +1,17 @@
 local lfs = require"lfs" -- luarocks install luafilesystem
-local stringFormat,osGetenv,tostring,assert,loadfile,pairs,type,error = string.format,os.getenv,tostring,assert,loadfile,pairs,type,error
-local tableInsert,tableConcat,stringDump,ioOpen,stringChar = table.insert,table.concat,string.dump,io.open,string.char
+
+-- Localization - for speed and awesome!
+local tostring,assert,loadfile,pairs,type,error = tostring,assert,loadfile,pairs,type,error
+-- Libraries:
+local ioOpen = io.open
+local osGetenv = os.getenv
+local stringFormat,stringDump,stringChar = string.format,string.dump,string.char
+local tableInsert,tableConcat = table.insert,table.concat
 
 --- Solid state for Lua.
 -- @license Public Domain
 -- @author Linus Sjögren <thelinx@unreliablepollution.net>
+-- @version 1.1.0-PREVIEW
 module("state")
 local stateDir = stateDir or ""
 if stateDir == "" then
