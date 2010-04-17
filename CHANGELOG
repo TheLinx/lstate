@@ -5,3 +5,4 @@ STATE 1.1.0
   * Replaced string stack functions with just the table-inserting.
   * Fixed a bug where serializing an empty table would fail.
   * Is now able to store simple functions. Upvalues will fail.
+  * Will now error if encountering userdata or a thread.
