@@ -18,7 +18,7 @@ source = {
     url = "git://github.com/thelinx/luasolidstate.git"
 }
 build = {
-    type = "module",
+    type = "builtin",
     modules = {
         state = "state/init.lua"
     }

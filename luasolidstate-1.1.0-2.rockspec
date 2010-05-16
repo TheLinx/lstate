@@ -1,5 +1,5 @@
 package = "luaSolidState"
-version = "1.0.0-1"
+version = "1.1.0-2"
 description = {
     summary = "Library for storing and loading data",
     detailed = [[
@@ -15,11 +15,11 @@ dependencies = {
     "luafilesystem >= 1.5.0"
 }
 source = {
-    url = "http://github.com/TheLinx/luaSolidState/tarball/1.0.0",
-    file = "TheLinx-luaSolidState-f54afd6.tar.gz",
+    url = "git://github.com/TheLinx/luaSolidState.git",
+    branch = "1.1.0"
 }
 build = {
-    type = "module",
+    type = "builtin",
     modules = {
         state = "state/init.lua"
     }
