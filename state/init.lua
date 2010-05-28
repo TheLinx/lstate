@@ -111,6 +111,7 @@ luabinsenabled = false
 if lbina then
 	luabinsenabled = true
 	--- Store a table's binary representation.
+	-- Requires LuaBins.
 	-- @param id Identifier - used for loading the state later.
 	-- @param table The table to store.
 	function storebinary(id, table)
@@ -118,8 +119,9 @@ if lbina then
 		writefile(id, fcont)
 	end
 	--- Load a table's binary representation.
-	-- If the load is unsuccessful, the first return value will be nil and
-	-- the second value will be an error message.
+	-- If the load is unsuccessful, the first return value will be nil
+	-- and the second value will be an error message.
+	-- Requires LuaBins.
 	-- @param id Identifier - the one you used when saving the table.
 	function loadbinary(id)
 		local fcont = readfile(id)

@@ -1,7 +1,11 @@
 h1. luaSolidState
 
-luaSolidState (referred to as "state" from now on) is a Lua library which allows easy and painless storing of tables in Lua.
-You need LuaFilesystem for this module to work.
+luaSolidState (referred to as "state") is a Lua library which allows easy and painless storing of tables in Lua.
+
+h2. Dependencies
+
+* "LuaFilesystem":http://github.com/keplerproject/luafilesystem
+* (optional) "LuaBins":http://github.com/agladysh/luabins (if available, adds functions loadbinary and storebinary)
 
 h2. How to install (with LuaRocks)
 
