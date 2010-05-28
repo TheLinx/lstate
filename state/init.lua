@@ -12,9 +12,9 @@ local tableInsert,tableConcat = table.insert,table.concat
 --- Solid state for Lua.
 -- @license Public Domain
 -- @author Linus Sjögren <thelinx@unreliablepollution.net>
--- @version 1.2.0
+-- @version 1.3.0
 module("state")
-_VERSION = "1.2.0"
+_VERSION = "1.3.0"
 _AUTHOR = "Linus Sjögren <thelinx@unreliablepollution.net>"
 
 local stateDir = stateDir or ""
