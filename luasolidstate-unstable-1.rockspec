@@ -15,7 +15,7 @@ dependencies = {
     "luafilesystem >= 1.5.0"
 }
 source = {
-    url = "git://github.com/thelinx/luasolidstate.git"
+    url = "git://github.com/TheLinx/luaSolidState.git"
 }
 build = {
     type = "builtin",
