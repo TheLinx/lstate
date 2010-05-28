@@ -9,7 +9,7 @@ h2. Dependencies
 
 h2. How to install (with LuaRocks)
 
-Run the command _luarocks install http://github.com/TheLinx/luaSolidState/raw/rocks/luasolidstate-1.3.0-1.rockspec_
+Run the command _luarocks install luasolidstate_
 
 h2. How to install (Manually)
 
