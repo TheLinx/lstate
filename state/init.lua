@@ -12,9 +12,9 @@ local tableInsert,tableConcat = table.insert,table.concat
 --- Solid state for Lua.
 -- @license Public Domain
 -- @author Linus Sjögren <thelinx@unreliablepollution.net>
--- @version 1.3.1
+-- @version 1.3.2
 module("state")
-_VERSION = "1.3.1"
+_VERSION = "1.3.2"
 _AUTHOR = "Linus Sjögren <thelinx@unreliablepollution.net>"
 
 local stateDir = stateDir or ""
@@ -99,6 +99,7 @@ end
 -- @param id Identifier - the one you used when saving the table.
 function load(id)
     local fcont = readfile(id)
+    if not fcont then return nil, "no such save" end
     local func,err = loadstring(fcont)
     if func then
 		return func()
