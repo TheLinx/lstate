@@ -1,13 +1,13 @@
-package = "luaSolidState"
-version = "1.2.0-2"
+package = "state"
+version = "unstable-1"
 description = {
     summary = "Library for storing and loading data",
     detailed = [[
-        luaSolidState is a Lua library that allows easy and painless
+        lstate is a Lua library that allows easy and painless
         storing of tables in Lua.
     ]],
     license = "Public Domain",
-    homepage = "http://github.com/TheLinx/luaSolidState",
+    homepage = "http://github.com/TheLinx/lstate",
     maintainer = "Linus Sjögren <thelinx@unreliablepollution.net>"
 }
 dependencies = {
@@ -15,8 +15,7 @@ dependencies = {
     "luafilesystem >= 1.5.0"
 }
 source = {
-    url = "git://github.com/TheLinx/luaSolidState.git",
-    branch = "1.2.0"
+    url = "git://github.com/TheLinx/lstate.git"
 }
 build = {
     type = "builtin",
