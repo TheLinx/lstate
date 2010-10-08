@@ -1,31 +1,31 @@
 STATE 1.3.2
 -----------
-http://github.com/TheLinx/luaSolidState/compare/1.3.0...1.3.1
+http://github.com/TheLinx/lstate/compare/1.3.0...1.3.1
 
   * Graceful fail.
 
 STATE 1.3.1
 -----------
-http://github.com/TheLinx/luaSolidState/compare/1.3.0...1.3.1
+http://github.com/TheLinx/lstate/compare/1.3.0...1.3.1
 
   * loadstring wasn't localized...
 
 STATE 1.3.0
 -----------
-http://github.com/TheLinx/luaSolidState/compare/1.2.0...1.3.0
+http://github.com/TheLinx/lstate/compare/1.2.0...1.3.0
 
   * LuaBins integration if available.
 
 STATE 1.2.0
 -----------
-http://github.com/TheLinx/luaSolidState/compare/1.1.0...1.2.0
+http://github.com/TheLinx/lstate/compare/1.1.0...1.2.0
 
   * Now supports cyclic referencing in tables.
   * Renamed serializing functions to lowercase-only to avoid library confusion.
 
 STATE 1.1.0
 -----------
-http://github.com/TheLinx/luaSolidState/compare/1.0.0...1.1.0
+http://github.com/TheLinx/lstate/compare/1.0.0...1.1.0
 
   * Changed names of local functions to be more human-friendly.
   * Replaced string stack functions with just the table-inserting.

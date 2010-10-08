@@ -1,6 +1,6 @@
-h1. luaSolidState
+h1. lstate
 
-luaSolidState (referred to as "state") is a Lua library which allows easy and painless storing of tables in Lua.
+lstate is a Lua library which allows easy and painless storing of tables in Lua.
 
 h2. Dependencies
 
@@ -9,7 +9,7 @@ h2. Dependencies
 
 h2. How to install (with LuaRocks)
 
-Run the command _luarocks install luasolidstate_
+Run the command _luarocks install state_
 
 h2. How to install (Manually)
 
