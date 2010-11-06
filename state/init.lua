@@ -12,19 +12,21 @@ local tableInsert,tableConcat = table.insert,table.concat
 --- Solid state for Lua.
 -- @license Public Domain
 -- @author Linus Sjögren <thelinx@unreliablepollution.net>
--- @version 1.3.2
+-- @version 1.3.3
 module("state")
-_VERSION = "1.3.2"
+_VERSION = "1.3.3"
 _AUTHOR = "Linus Sjögren <thelinx@unreliablepollution.net>"
 
 local stateDir = stateDir or ""
 if stateDir == "" then
-    if osGetenv("HOME") then
+		if osGetenv("XDG_DATA_HOME") then -- as per the freedesktop specs
+				stateDir = osGetenv("XDG_DATA_HOME").."/luastates/"
+    elseif osGetenv("HOME") then -- we'll just do this then
         stateDir = osGetenv("HOME").."/.luastates/"
-    elseif osGetenv("appdata") then
+    elseif osGetenv("appdata") then -- oh, you're on windows
         stateDir = osGetenv("appdata").."\\LuaStates\\"
     else
-        error("Cannot determine OS, please submit a bug report to http://github.com/TheLinx/luaSolidState/issues")
+        error("Cannot determine OS, please submit a bug report to http://github.com/TheLinx/lstate/issues")
     end
 end
 if not lfs.attributes(stateDir) then
